@@ -12,35 +12,9 @@ app.use(json());
 const users = [];
 const tweets = [];
 
-let globalTweets;
-
-
 app.get('/tweets', (request, response) => {
-    // response.send(() => {
-    //     for (i = 0; i < totalTweetsOnScreen; i++) {
-    //         tweets[i];
-    //     }
-    // });
-
-    let listOfTweets = [];
-    globalTweets = listOfTweets;
-
-    for (let i = 0; i < totalTweetsOnScreen; i++) {
-
-        if (i > tweets.length - 1) {
-            response.send(globalTweets);
-        } else {
-            let tweet = {
-                "username": tweets[i].username,
-                "avatar": users.find((user) => user.username === tweets[i].username).avatar,
-                "tweet": tweets[i].tweet,
-            };
-
-            listOfTweets.push(tweet);
-        }
-    }
-
-    response.send(globalTweets);
+    const filterTweets = [...tweets].reverse().slice(0, totalTweetsOnScreen);
+    response.send(filterTweets);
 });
 
 app.post('/sign-up', (request, response) => {
@@ -52,8 +26,9 @@ app.post('/sign-up', (request, response) => {
 
 app.post('/tweets', (request, response) => {
     const tweet = request.body;
+    const { avatar } = users.find(user => user.username === request.body.username);
 
-    tweets.push(tweet);
+    tweets.push({ ...tweet, avatar });
     response.send('OK');
 });
 
