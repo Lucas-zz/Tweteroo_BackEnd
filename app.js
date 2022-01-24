@@ -31,9 +31,9 @@ app.get('/tweets', (request, response) => {
             response.send(globalTweets);
         } else {
             let tweet = {
-                "username": tweets[i].username,
-                "avatar": users.find((user) => user.username === tweets[i].username).avatar,
-                "tweet": tweets[i].tweet,
+                "username": tweets[tweets.length - 1 - i].username,
+                "avatar": users.find((user) => user.username === tweets[tweets.length - 1 - i].username).avatar,
+                "tweet": tweets[tweets - 1 - i].tweet,
             };
 
             listOfTweets.push(tweet);
